@@ -1,22 +1,29 @@
-//ls1
+//ls2 
+var fs = require('fs');
+var argv = require('minimist')(process.argv.slice(2));
+//console.log(argv);
 
-console.log('Hello, Node Js!');
+const readline = require('readline');
 
-const ansi = require('ansi');
-const color = require('colors');
+const resource = readline.createInterface({
+	input: process.stdin,
+	output: process.stdout
+});
 
-//Создаем курсор
-const cursor = ansi(process.stdout);
-console.log('hello, Wrld'.red);
-console.log('i like cake and pies'.underline.green) // outputs red underlined text
-console.log('OMG Rainbows!'.rainbow); // rainbow
-//cursor.beep();
-console.log("\x07");
-
-/*
-.white() //color
-.bg.green() //bg
-.write('Hello, World!')
-.reset()
-.bg.reset()
-.write('\n');*/
+const num = Math.round(Math.random());
+let res;
+console.log("Угадай число 1 или 0?");
+//console.log(num);
+resource.on('line', (cmd) => {
+	if (cmd == num){
+		res = 'Угадал';
+		fs.writeFile(`${argv['_'][0]}`, res, () => {})
+		console.log(res);
+		resource.close();
+		return;
+	}	
+	res = 'Не угадал';
+	fs.writeFile(`${argv['_'][0]}`, res, () => {})
+	console.log(res);
+	resource.close();
+})
